@@ -1,0 +1,22 @@
+{
+  "name": "node-license-generator",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BillyNoyes/license-generator.git"
+  },
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "bin": "./src/index.js",
+  "keywords": [],
+  "author": "Billy Noyes <developedbybillynoyes@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "inquirer": "^9.2.20",
+    "node-fetch": "^3.3.2"
+  }
+}
