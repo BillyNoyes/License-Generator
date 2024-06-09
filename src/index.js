@@ -1,91 +1,75 @@
 #!/usr/bin/env node
 
-import fetch from 'node-fetch';
-import inquirer from 'inquirer';
+import fs from 'fs/promises';
+import yargs from 'yargs';
+import { hideBin } from 'yargs/helpers';
 
-import fs from 'fs';
+import { fetchJson, promptUser } from './utils.js';
+import { GITHUB_LICENSES_URL } from './config.js';
 
-let name;
-let year;
+const argv = yargs(hideBin(process.argv)).argv;
 
 async function getLicenseData() {
-  const response = await fetch('https://api.github.com/licenses');
-  return await response.json();
+  return await fetchJson(GITHUB_LICENSES_URL);
 }
 
 async function getChosenLicenseData(url) {
-  const response = await fetch(url);
-  return await response.json();
+  return await fetchJson(url);
 }
 
 async function promptLicenseType(licenseData) {
-  const licenseNames = licenseData?.map(license => license.name);
+  const licenseNames = licenseData.map(license => license.name);
 
-  const answer = await inquirer.prompt({
+  const question = {
     name: 'license_name',
     type: 'list',
     message: 'Choose a license',
-    choices: [...licenseNames],
-    loop: false
-  });
+    choices: licenseNames,
+    loop: false,
+  };
 
-  const chosenLicense = licenseData?.find(license => license.name === answer.license_name);
+  const chosenLicenseName = await promptUser(question);
+
+  const chosenLicense = licenseData.find(license => license.name === chosenLicenseName);
 
   return chosenLicense
 }
 
-async function promptName() {
-  const answer = await inquirer.prompt({
-    name: 'name',
-    type: 'input',
-    message: 'Enter your name',
-    default() {
-      return 'Name';
-    },
-  });
-
-  return answer.name;
-}
-
-async function promptYear() {
-  const answer = await inquirer.prompt({
-    name: 'year',
-    type: 'input',
-    message: 'Enter year',
-    default() {
-      return new Date().getFullYear();
-    },
-  });
-
-  return answer.year;
-}
-
-function formatLicenseBody(body) {
+function formatLicenseBody(body, name, year) {
   const formattedBody = body
-    .replace("[year]", year)
-    .replace("<year>", year)
-    .replace("[fullname]", name)
-    .replace("[name]", name)
-    .replace("<name of copyright owner>", name)
-    .replace("<name of author>", name);
+    .replace(/\[year\]|\<year\>/g, year)
+    .replace(/\[fullname\]|\[name\]|\<name of copyright owner\>|\<name of author\>/g, name);
 
   return formattedBody
 }
 
-// Run it with top-level await
 async function init() {
-  const licenseData = await getLicenseData();
+  try {
+    const licenseData = await getLicenseData();
+    const selectedLicense = await promptLicenseType(licenseData);
 
-  const selectedLicense = await promptLicenseType(licenseData);
+    const name = argv.name || await promptUser({
+      name: 'name',
+      type: 'input',
+      message: 'Enter your name',
+      default: 'Name',
+    });
 
-  name = await promptName();
-  year = await promptYear();
+    const year = argv.year || await promptUser({
+      name: 'year',
+      type: 'input',
+      message: 'Enter year',
+      default: new Date().getFullYear(),
+    });
 
-  const chosenLicenseData = await getChosenLicenseData(selectedLicense.url);
+    const chosenLicenseData = await getChosenLicenseData(selectedLicense.url);
+    const formattedLicenseBody = formatLicenseBody(chosenLicenseData.body, name, year);
 
-  const formattedLicenseBody = formatLicenseBody(chosenLicenseData?.body)
-
-  fs.writeFileSync('LICENSE', formattedLicenseBody);
+    await fs.writeFile('LICENSE', formattedLicenseBody);
+    console.log('LICENSE file has been created successfully.');
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
 }
 
 init();

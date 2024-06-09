@@ -1,0 +1,1 @@
+export const GITHUB_LICENSES_URL = 'https://api.github.com/licenses';
