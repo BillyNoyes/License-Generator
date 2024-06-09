@@ -6,28 +6,28 @@ Super Simple License Generator is a Node.js command-line tool for generating LIC
 ## Installation
 Ensure you have Node.js installed on your machine. You can install the package globally using npm or yarn:
 
-`npm install -g super-simple-license-generator`
+`npm install -g node-license-generator`
 
 or
 
-`yarn global add super-simple-license-generator`
+`yarn global add node-license-generator`
 
 ## Usage
 Navigate to your project directory and run the following command to generate a license:
 
-`generate-license`
+`node-license-generator`
 
 You will be prompted to choose a license, enter your name, and specify the year.
 
 ### Command-Line Arguments
 You can also provide your name and year directly via command-line arguments to skip the prompts:
 
-`generate-license --name "John Doe" --year 2024`
+`node-license-generator --name "John Doe" --year 2024`
 
 ## Examples
 
 ### Example 1: Interactive Mode
-`generate-license`
+`node-license-generator`
 
 This command will prompt you to:
 - Choose a license from the list
@@ -35,7 +35,7 @@ This command will prompt you to:
 - Enter the year
 
 ### Example 2: Command-Line Arguments
-`generate-license --name "Jane Doe" --year 2024`
+`node-license-generator --name "Jane Doe" --year 2024`
 
 This command will generate a LICENSE file for "Jane Doe" in the year 2024 without any prompts.
 
@@ -47,4 +47,3 @@ This project is licensed under the MIT License.
 
 ## Contact
 For any questions or feedback, please open an issue on GitHub.
-
