@@ -1,7 +1,7 @@
 {
   "name": "node-license-generator",
   "version": "1.0.0",
-  "description": "",
+  "description": "A Super Simple Node.js command-line tool for generating LICENSE files for your projects.",
   "homepage": "https://billynoyes.co.uk",
   "type": "module",
   "repository": {
@@ -10,14 +10,18 @@
   },
   "main": "./src/index.js",
   "scripts": {
-    "start": "node ."
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
     "generate-license": "./index.js"
   },
-  "keywords": [],
+  "keywords": [
+    "license",
+    "generator",
+    "node"
+  ],
   "author": "Billy Noyes <developedbybillynoyes@gmail.com>",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "inquirer": "^9.2.20",
     "node-fetch": "^3.3.2"
