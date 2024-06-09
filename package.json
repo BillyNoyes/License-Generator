@@ -12,7 +12,9 @@
   "scripts": {
     "start": "node ."
   },
-  "bin": "./src/index.js",
+  "bin": {
+    "generate-license": "./index.js"
+  },
   "keywords": [],
   "author": "Billy Noyes <developedbybillynoyes@gmail.com>",
   "license": "ISC",
