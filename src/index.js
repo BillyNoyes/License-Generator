@@ -9,14 +9,28 @@ import { GITHUB_LICENSES_URL } from './config.js';
 
 const argv = yargs(hideBin(process.argv)).argv;
 
+/**
+ * Fetches license data from the GitHub API.
+ * @returns {Array} - List of license data.
+ */
 async function getLicenseData() {
   return await fetchJson(GITHUB_LICENSES_URL);
 }
 
+/**
+ * Fetches the data for the chosen license.
+ * @param {string} url - The URL to fetch the chosen license data from.
+ * @returns {Object} - Chosen license data.
+ */
 async function getChosenLicenseData(url) {
   return await fetchJson(url);
 }
 
+/**
+ * Prompts the user to select a license type.
+ * @param {Array} licenseData - List of available licenses.
+ * @returns {Object} - Chosen license.
+ */
 async function promptLicenseType(licenseData) {
   const licenseNames = licenseData.map(license => license.name);
 
@@ -32,17 +46,27 @@ async function promptLicenseType(licenseData) {
 
   const chosenLicense = licenseData.find(license => license.name === chosenLicenseName);
 
-  return chosenLicense
+  return chosenLicense;
 }
 
+/**
+ * Formats the license body with the user's name and year.
+ * @param {String} body - The body of the license.
+ * @param {String} name - User's name.
+ * @param {String} year - Current year.
+ * @returns {String} - Formatted license body.
+ */
 function formatLicenseBody(body, name, year) {
   const formattedBody = body
     .replace(/\[year\]|\<year\>/g, year)
     .replace(/\[fullname\]|\[name\]|\<name of copyright owner\>|\<name of author\>/g, name);
 
-  return formattedBody
+  return formattedBody;
 }
 
+/**
+ * Initializes the license generation process.
+ */
 async function init() {
   try {
     const licenseData = await getLicenseData();
@@ -72,4 +96,5 @@ async function init() {
   }
 }
 
+// Run the initialization function
 init();
