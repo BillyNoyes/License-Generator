@@ -14,7 +14,7 @@
     "test": "echo \"No tests specified\""
   },
   "bin": {
-    "generate-license": "./index.js"
+    "generate-license": "./src/index.js"
   },
   "keywords": [
     "license",
