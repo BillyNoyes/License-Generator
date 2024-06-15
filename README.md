@@ -22,7 +22,7 @@ You will be prompted to choose a license, enter your name, and specify the year.
 ### Command-Line Arguments
 You can also provide your name and year directly via command-line arguments to skip the prompts:
 
-`node-license-generator --name "John Doe" --year 2024`
+`node-license-generator --name="John Doe" --year=2024`
 
 ## Examples
 
@@ -35,7 +35,7 @@ This command will prompt you to:
 - Enter the year
 
 ### Example 2: Command-Line Arguments
-`node-license-generator --name "Jane Doe" --year 2024`
+`node-license-generator --name="Jane Doe" --year=2024`
 
 This command will generate a LICENSE file for "Jane Doe" in the year 2024 without any prompts.
 
