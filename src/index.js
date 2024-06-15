@@ -26,6 +26,40 @@ async function getChosenLicenseData(url) {
   return await fetchJson(url);
 }
 
+async function promptName() {
+  if (argv.name) {
+    return argv.name
+  }
+
+  const question = {
+    name: 'name',
+    type: 'input',
+    message: 'Enter your name',
+    default: 'Name',
+  }
+
+  const name = await promptUser(question);
+
+  return name
+}
+
+async function promptYear() {
+  if (argv.year) {
+    return argv.year
+  }
+
+  const question = {
+    name: 'year',
+    type: 'input',
+    message: 'Enter year',
+    default: new Date().getFullYear(),
+  }
+
+  const year = await promptUser(question);
+
+  return year
+}
+
 /**
  * Prompts the user to select a license type.
  * @param {Array} licenseData - List of available licenses.
@@ -47,6 +81,26 @@ async function promptLicenseType(licenseData) {
   const chosenLicense = licenseData.find(license => license.name === chosenLicenseName);
 
   return chosenLicense;
+}
+
+async function promptPackageJsonUpdate(selectedLicense) {
+  const question = {
+    name: 'update_package_json',
+    type: 'confirm',
+    message: 'Do you want to update the package.json License field?',
+  }
+
+  const updateLicenseField = await promptUser(question);
+
+  if (!updateLicenseField) {
+    return;
+  }
+
+  const packageJsonPath = './package.json';
+  const packageJson = JSON.parse(await fs.readFile(packageJsonPath, 'utf-8'));
+
+  packageJson.license = selectedLicense.spdx_id;
+  await fs.writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
 }
 
 /**
@@ -72,25 +126,18 @@ async function init() {
     const licenseData = await getLicenseData();
     const selectedLicense = await promptLicenseType(licenseData);
 
-    const name = argv.name || await promptUser({
-      name: 'name',
-      type: 'input',
-      message: 'Enter your name',
-      default: 'Name',
-    });
-
-    const year = argv.year || await promptUser({
-      name: 'year',
-      type: 'input',
-      message: 'Enter year',
-      default: new Date().getFullYear(),
-    });
+    const name = await promptName();
+    const year = await promptYear();
 
     const chosenLicenseData = await getChosenLicenseData(selectedLicense.url);
     const formattedLicenseBody = formatLicenseBody(chosenLicenseData.body, name, year);
 
     await fs.writeFile('LICENSE', formattedLicenseBody);
     console.log('LICENSE file has been created successfully.');
+
+    await promptPackageJsonUpdate(selectedLicense);
+    console.log('package.json License field has been updated successfully.');
+
   } catch (error) {
     console.error('Error:', error.message);
   }
