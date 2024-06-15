@@ -9,9 +9,6 @@
     "url": "https://github.com/BillyNoyes/license-generator.git"
   },
   "main": "./src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "bin": {
     "generate-license": "./index.js"
   },
