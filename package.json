@@ -1,6 +1,6 @@
 {
   "name": "node-license-generator",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "A Super Simple Node.js command-line tool for generating LICENSE files for your projects.",
   "author": "Billy Noyes <developedbybillynoyes@gmail.com>",
   "homepage": "https://billynoyes.co.uk",
@@ -21,7 +21,7 @@
     "generator",
     "node"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "dependencies": {
     "inquirer": "^9.2.20",
     "node-fetch": "^3.3.2",

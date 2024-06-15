@@ -26,6 +26,10 @@ async function getChosenLicenseData(url) {
   return await fetchJson(url);
 }
 
+/**
+ * Prompts the user to enter a name or uses the argument if passed in.
+ * @returns {String} - Chosen name.
+ */
 async function promptName() {
   if (argv.name) {
     return argv.name
@@ -43,6 +47,10 @@ async function promptName() {
   return name
 }
 
+/**
+ * Prompts the user to enter a year or uses the argument if passed in.
+ * @returns {String} - Chosen year.
+ */
 async function promptYear() {
   if (argv.year) {
     return argv.year
