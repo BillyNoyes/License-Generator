@@ -15,27 +15,28 @@ or
 ## Usage
 Navigate to your project directory and run the following command to generate a license:
 
-`node-license-generator`
+`generate-license`
 
 You will be prompted to choose a license, enter your name, and specify the year.
 
 ### Command-Line Arguments
 You can also provide your name and year directly via command-line arguments to skip the prompts:
 
-`node-license-generator --name="John Doe" --year=2024`
+`generate-license --name="John Doe" --year=2024`
 
 ## Examples
 
 ### Example 1: Interactive Mode
-`node-license-generator`
+`generate-license`
 
 This command will prompt you to:
 - Choose a license from the list
 - Enter your name
 - Enter the year
+- Choose whether to update package.json license field or not
 
 ### Example 2: Command-Line Arguments
-`node-license-generator --name="Jane Doe" --year=2024`
+`generate-license--name="Jane Doe" --year=2024`
 
 This command will generate a LICENSE file for "Jane Doe" in the year 2024 without any prompts.
 
